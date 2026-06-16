@@ -1,80 +1,69 @@
+<!-- 
+画面名：トップページ
+役割：ログイン後のメニュー画面
+表示内容：ユーザー名、機能メニュー
+ボタン①：打刻画面へ
+ボタン②：履歴確認
+ボタン③：ログアウト
+遷移先：attendance.html、history.html、login.html
+ -->
+
 <!DOCTYPE html>
 <html>
 <head>
+<!-- ブラウザタイトル -->
 <title>トップページ</title>
+<!-- 文字コード設定 -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Bootstrap読込 -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 <body>
-
+	<!-- 画面全体 -->
 	<div class="container mt-5">
-
+		<!-- カードレイアウト -->
 		<div class="card shadow">
-
+			<!-- ヘッダー -->
 			<div class="card-header bg-success text-white">
-
 				<div class="d-flex justify-content-between">
-
+					<!-- システム名 -->
 					<h3>社内勤怠管理システム</h3>
-
+					<!-- ログアウトボタン -->
 					<a href="/logout" class="btn btn-light"> ログアウト </a>
-
 				</div>
-
 			</div>
 
 			<div class="card-body">
-
-				<h4 class="text-center mb-4">
-					ようこそ、 <span th:text="${userName}"></span> さん
-				</h4>
-
+				<!-- ログインユーザー名表示 --><!-- Controllerから受け取ったユーザー名を表示する。 -->
+				<h4 class="text-center mb-4">ようこそ、 <span th:text="${userName}"></span> さん</h4>
 				<div class="row">
-
+					<!-- 出勤・退勤画面 -->
 					<div class="col-md-6 mb-3">
-
 						<div class="card border-primary">
-
 							<div class="card-body text-center">
-
 								<h5>出勤・退勤</h5>
-
 								<p>本日の勤怠を登録します。</p>
-
 								<a href="/attendance" class="btn btn-primary"> 打刻画面へ </a>
-
 							</div>
-
 						</div>
-
 					</div>
-
+					<!-- 勤怠履歴画面 -->
 					<div class="col-md-6 mb-3">
-
 						<div class="card border-success">
-
 							<div class="card-body text-center">
-
 								<h5>勤怠履歴</h5>
-
 								<p>過去の勤怠履歴を確認します。</p>
-
 								<a href="/history" class="btn btn-success"> 履歴確認 </a>
-
 							</div>
-
 						</div>
-
 					</div>
 
 				</div>
-
 			</div>
 
 		</div>
-
 	</div>
 
 </body>
