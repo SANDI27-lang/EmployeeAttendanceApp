@@ -57,7 +57,7 @@ public class LoginController {
 				return "redirect:/admin";
 			}
 			/**一般社員の場合は社員トップ画面へ遷移**/
-			return "redirect:/top";
+			return "redirect:/";
 		}
 		/**ログイン失敗時はエラーメッセージを表示**/
 		model.addAttribute("error", "メールアドレスまたはパスワードが違います。");
