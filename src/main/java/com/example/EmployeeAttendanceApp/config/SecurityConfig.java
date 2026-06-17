@@ -67,7 +67,7 @@ public class SecurityConfig {
                         request.getSession().setAttribute("loginUserName", "管理者");
                         request.getSession().setAttribute("role", "ADMIN");
                         /** 管理者トップへ遷移**/
-                        response.sendRedirect("/admin/top");
+                        response.sendRedirect("/admin");
                         return;
                     }
                     /** DBからユーザー取得 **/

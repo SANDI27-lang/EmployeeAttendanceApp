@@ -70,8 +70,12 @@ public class AttendanceController {
         if (userId == null) {
             return "redirect:/login";
         }
+        
         /** 勤怠情報にログインユーザーIDを設定**/
         attendance.setUserId(userId);
+        /** 勤怠情報にログインユーザー名を設定 **/
+        String userName = (String) session.getAttribute("loginUserName");
+        attendance.setName(userName);
         /** 勤怠情報をDBへ保存**/
         attendanceService.save(attendance);
         /** 登録完了画面へ遷移**/

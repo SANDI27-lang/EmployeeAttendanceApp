@@ -61,7 +61,7 @@ public class AdminController {
 	// 社員登録処理
 	@RequestMapping(value = "/admin/user/register", method = RequestMethod.POST)
 	public ModelAndView saveUser(@ModelAttribute("formModel") User user, ModelAndView mav) {
-
+		user.setRole("USER");
 		userRepository.saveAndFlush(user);
 
 		return new ModelAndView("redirect:/admin/user/list");
@@ -121,9 +121,10 @@ public class AdminController {
 		mav.setViewName("attendance-list");
 		mav.addObject("title", "勤怠管理一覧");
 
-		Iterable<Attendance> list = attendanceRepository.findAll();
-
-		mav.addObject("data", list);
+		Iterable<Attendance> attendanceList = attendanceRepository.findAll();
+		Iterable<User> users = userRepository.findAll();
+		mav.addObject("attendanceList", attendanceList);
+		mav.addObject("users", users);
 
 		return mav;
 	}
