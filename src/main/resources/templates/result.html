@@ -1,0 +1,40 @@
+<!--  
+ * 登録結果画面
+ * 勤怠情報の登録完了後に表示する画面。
+ * 登録成功メッセージを表示する。
+ * トップページへ戻る機能を提供する。
+ -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<!-- ブラウザタイトル -->
+<title>登録結果画面</title>
+<!-- 文字コード設定 -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Bootstrap読込 -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+	<!-- 画面全体 -->
+	<div class="container mt-5">
+		<!-- カード形式で表示 -->
+		<div class="card shadow mx-auto" style="max-width: 700px;">
+			<!-- 画面タイトル -->
+			<div class="card-header bg-info text-white"><h3>登録結果画面</h3></div>
+			<div class="card-body text-center">
+				<!-- システム名 -->
+				<h4 class="mb-4">社内勤怠管理システム</h4>
+				<!-- 登録成功メッセージ -->
+				<div class="alert alert-success">勤怠情報が正常に登録されました。</div>
+				<!-- トップページへ戻るボタン -->
+				<div class="mt-4"><a href="/top" class="btn btn-primary"> トップページへ戻る </a></div>
+			</div>
+		</div>
+		
+	</div>
+
+</body>
+</html>

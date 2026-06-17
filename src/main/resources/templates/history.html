@@ -1,0 +1,122 @@
+<!--  
+ * 勤怠履歴画面
+ * ログインユーザーの勤怠履歴を一覧表示する。
+ * 勤務日、出勤時間、休憩時間、退勤時間を確認できる。
+ * 実働時間および休憩時間を表示する。
+ * ステータス（申請中・承認済）を確認できる。
+ * 「検索」ボタンで対象月の勤怠履歴を表示する。
+ * 「全件表示」ボタンで全ての勤怠履歴を表示する。
+ * トップページへ戻る機能を提供する。
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+<!-- ブラウザタイトル -->
+<title>勤怠履歴画面</title>
+<!-- 文字コード設定 -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Bootstrap読込 -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+	<!-- 画面全体 -->
+	<div class="container mt-5">
+		<!-- カード形式で表示 -->
+		<div class="card shadow">
+			<!-- 画面タイトル -->
+			<div class="card-header bg-success text-white"><h3>勤怠履歴画面</h3></div>
+
+			<div class="card-body">
+				<!-- 月別検索フォーム -->
+				<form method="get" action="/history" class="row g-3 mb-4">
+					<!-- 年入力欄 -->
+					<div class="col-md-4">
+						<!-- 検索したい年を入力 -->
+						<input type="number" name="year" class="form-control" placeholder="年 例：2026" th:value="${year}">
+					</div>
+					<!-- 月選択欄 -->
+					<div class="col-md-4">
+						<select name="month" class="form-select">
+							<!-- 初期表示 -->
+							<option value="">月を選択</option>
+							<!-- 1月～12月を生成 -->
+							<option th:each="m : ${#numbers.sequence(1,12)}" th:value="${m}" th:text="${m + '月'}" th:selected="${m == month}"></option>
+						</select>
+					</div>
+					<!-- 検索ボタン -->
+					<div class="col-md-2">
+						<button type="submit" class="btn btn-primary w-100">検索</button>
+					</div>
+					<!-- 全件表示ボタン -->
+					<div class="col-md-2">
+						<a href="/history" class="btn btn-secondary w-100"> 全件表示 </a>
+					</div>
+
+				</form>
+				<!-- 勤怠履歴一覧テーブル -->
+				<table class="table table-bordered table-striped text-center">
+					<!-- テーブルヘッダ -->
+					<thead>
+
+						<tr>
+							<th>日付</th>
+							<th>出勤</th>
+							<th>休憩開始</th>
+							<th>休憩終了</th>
+							<th>退勤</th>
+							<th>休憩時間</th>
+							<th>実働時間</th>
+							<th>ステータス</th>
+						</tr>
+
+					</thead>
+					<!-- 勤怠履歴表示 -->
+					<tbody>
+						<!-- 勤怠履歴を1件ずつ表示 -->
+						<tr th:each="attendance : ${attendanceList}">
+							<!-- 勤務日 -->
+							<td th:text="${attendance.workDate}"></td>
+							<!-- 出勤時間 -->
+							<td th:text="${attendance.clockIn}"></td>
+							<!-- 休憩開始時間 -->
+							<td th:text="${attendance.breakStart}"></td>
+							<!-- 休憩終了時間 -->
+							<td th:text="${attendance.breakEnd}"></td>
+							<!-- 退勤時間 -->
+							<td th:text="${attendance.clockOut}"></td>
+							<!-- 休憩時間 -->
+							<td th:text="${attendance.breakHours}"></td>
+							<!-- 実働時間 -->
+							<td th:text="${attendance.workingHours}"></td>
+							<!-- ステータス -->
+							<td th:text="${attendance.status}"></td> 
+							<!-- 
+							<td>
+    							<span th:if="${attendance.status == '申請中'}" class="badge bg-warning text-dark"> 申請中</span>
+				
+				    			<span th:if="${attendance.status == '承認}済'" class="badge bg-success">承認済</span>
+				    		</td>
+							 -->
+						</tr>
+
+					</tbody>
+
+				</table>
+				<!-- トップページへ戻る -->
+				<div class="text-center mt-4">
+
+					<a href="/top" class="btn btn-secondary"> トップページへ戻る </a>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</body>
+</html>
