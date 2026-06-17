@@ -5,201 +5,192 @@
 <title>勤怠管理一覧</title>
 
 <style>
-body{
-    font-family:"Yu Gothic",sans-serif;
-    background-color:#f4f6f9;
-    margin:0;
+body {
+	font-family: "Yu Gothic", sans-serif;
+	background-color: #f4f6f9;
+	margin: 0;
 }
 
-.container{
-    width:1200px;
-    margin:30px auto;
-    background-color:white;
-    border-radius:8px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.15);
-    padding:25px;
+.container {
+	width: 1200px;
+	margin: 30px auto;
+	background-color: white;
+	border-radius: 8px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+	padding: 25px;
 }
 
-.title{
-    display:inline-block;
-    background-color:#1f3a5f;
-    color:white;
-    font-size:24px;
-    font-weight:bold;
-    padding:15px 20px;
-    border-radius:5px;
-    margin-bottom:25px;
-}
-.search-area{
-    text-align:center;
-    margin-bottom:25px;
+.title {
+	display: inline-block;
+	background-color: #1f3a5f;
+	color: white;
+	font-size: 24px;
+	font-weight: bold;
+	padding: 15px 20px;
+	border-radius: 5px;
+	margin-bottom: 25px;
 }
 
-.search-area input,
-.search-area select{
-    width:180px;
-    height:38px;
-    border:1px solid #ccc;
-    border-radius:4px;
-    padding-left:10px;
+.search-area {
+	text-align: center;
+	margin-bottom: 25px;
 }
 
-.search-btn{
-    width:90px;
-    height:38px;
-    background-color:#1f77b4;
-    color:white;
-    border:none;
-    border-radius:4px;
-    cursor:pointer;
+.search-area input, .search-area select {
+	width: 180px;
+	height: 38px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding-left: 10px;
 }
 
-.search-btn:hover{
-    background-color:#155a8a;
+.search-btn {
+	width: 90px;
+	height: 38px;
+	background-color: #1f77b4;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
+.search-btn:hover {
+	background-color: #155a8a;
 }
 
-th{
-    background-color:#2c5d8a;
-    color:white;
+table {
+	width: 100%;
+	border-collapse: collapse;
 }
 
-th,
-td{
-    border:1px solid #d0d7de;
-    text-align:center;
-    padding:12px;
+th {
+	background-color: #2c5d8a;
+	color: white;
 }
 
-tr:nth-child(even){
-    background-color:#f8fafc;
+th, td {
+	border: 1px solid #d0d7de;
+	text-align: center;
+	padding: 12px;
 }
 
-.detail-btn{
-    width:80px;
-    height:35px;
-    background-color:#ffc107;
-    border:none;
-    border-radius:4px;
-    cursor:pointer;
-    font-weight:bold;
+tr:nth-child(even) {
+	background-color: #f8fafc;
 }
 
-.detail-btn:hover{
-    background-color:#e0a800;
+.detail-btn {
+	width: 80px;
+	height: 35px;
+	background-color: #ffc107;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-weight: bold;
 }
 
-.back-area{
-    text-align:center;
-    margin-top:30px;
+.detail-btn:hover {
+	background-color: #e0a800;
 }
 
-.back-btn{
-    width:250px;
-    height:45px;
-    background-color:#6c757d;
-    color:white;
-    border:none;
-    border-radius:4px;
-    cursor:pointer;
-    font-size:15px;
+.back-area {
+	text-align: center;
+	margin-top: 30px;
 }
 
-.back-btn:hover{
-    background-color:#545b62;
+.back-btn {
+	width: 250px;
+	height: 45px;
+	background-color: #6c757d;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 15px;
+}
+
+.back-btn:hover {
+	background-color: #545b62;
 }
 </style>
 
 </head>
 <body>
 
-<div class="container">
+	<div class="container">
 
-    <div class="title">
-        ■ 勤怠管理一覧
-    </div>
+		<div class="title">■ 勤怠管理一覧</div>
 
-    <div class="search-area">
+		<div class="search-area">
+
+    <form th:action="@{/admin/attendance/search}" method="get">
 
         年月
         <input type="month" name="month">
 
-        社員
+         社員
+    <select name="userId">
+        <option value="">全社員</option>
 
-        <select name="user">
-            <option value="">全て</option>
+        <option th:each="user : ${users}"
+         
+                th:text="${user.name}">
+        </option>
+    </select>
 
-            <option th:each="user : ${users}"
-                    th:value="${user.id}"
-                    th:text="${user.name}">
-            </option>
+    <button type="submit" class="search-btn">検索</button>
 
-        </select>
-
-        <button class="search-btn">
-            検索
-        </button>
-
-    </div>
-
-    <table>
-
-        <tr>
-            <th>日付</th>
-            <th>氏名</th>
-            <th>出勤時間</th>
-            <th>退勤時間</th>
-            <th>休憩時間</th>
-            <th>実働時間</th>
-            <th>ステータス</th>
-            <th>操作</th>
-        </tr>
-
-        <tr th:each="attendance : ${data}">
-
-            <td th:text="${attendance.workDate}"></td>
-
-            <td th:text="${attendance.userName}"></td>
-
-            <td th:text="${attendance.clockIn}"></td>
-
-            <td th:text="${attendance.clockOut}"></td>
-
-            <td th:text="${attendance.breakHours}"></td>
-
-            <td th:text="${attendance.workingHours}"></td>
-
-            <td th:text="${attendance.status}"></td>
-
-            <td>
-
-                <a th:href="@{/admin/attendance/detail/{id}(id=${attendance.id})}">
-                    <button class="detail-btn">
-                        詳細
-                    </button>
-                </a>
-
-            </td>
-
-        </tr>
-
-    </table>
-
-    <div class="back-area">
-
-        <a th:href="@{/admin}">
-            <button class="back-btn">
-                トップページへ戻る
-            </button>
-        </a>
-
-    </div>
+</form>
 
 </div>
+		<table>
+
+			<tr>
+				<th>日付</th>
+				<th>氏名</th>
+				<th>出勤時間</th>
+				<th>退勤時間</th>
+				<th>休憩時間</th>
+				<th>実働時間</th>
+				<th>ステータス</th>
+				<th>操作</th>
+			</tr>
+
+			<tr th:each="attendance : ${attendanceList}">
+
+				<td th:text="${attendance.workDate}"></td>
+
+				<td th:text="${attendance.name}"></td>
+
+				<td th:text="${attendance.clockIn}"></td>
+
+				<td th:text="${attendance.clockOut}"></td>
+
+				<td th:text="${attendance.breakHours}"></td>
+
+				<td th:text="${attendance.workingHours}"></td>
+
+				<td th:text="${attendance.status}"></td>
+
+				<td><a
+					th:href="@{/admin/attendance/detail/{id}(id=${attendance.id})}">
+						<button class="detail-btn">詳細</button>
+				</a></td>
+
+
+
+			</tr>
+
+		</table>
+
+		<div class="back-area">
+
+			<a th:href="@{/admin}">
+				<button class="back-btn">トップページへ戻る</button>
+			</a>
+
+		</div>
+
+	</div>
 
 </body>
 </html>

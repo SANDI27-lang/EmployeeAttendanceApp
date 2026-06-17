@@ -1,9 +1,11 @@
 package com.example.EmployeeAttendanceApp.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import com.example.EmployeeAttendanceApp.entities.Attendance;
 import com.example.EmployeeAttendanceApp.entities.User;
 import com.example.EmployeeAttendanceApp.reposities.AttendanceRepository;
 import com.example.EmployeeAttendanceApp.reposities.UserRepository;
+import com.example.EmployeeAttendanceApp.service.AttendanceService;
 
 @Controller
 public class AdminController {
@@ -24,6 +27,9 @@ public class AdminController {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private AttendanceService attendanceService;
 
 	// 管理者ホーム
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
@@ -61,7 +67,7 @@ public class AdminController {
 	// 社員登録処理
 	@RequestMapping(value = "/admin/user/register", method = RequestMethod.POST)
 	public ModelAndView saveUser(@ModelAttribute("formModel") User user, ModelAndView mav) {
-
+		user.setRole("USER");
 		userRepository.saveAndFlush(user);
 
 		return new ModelAndView("redirect:/admin/user/list");
@@ -123,7 +129,8 @@ public class AdminController {
 
 		Iterable<Attendance> list = attendanceRepository.findAll();
 
-		mav.addObject("data", list);
+		mav.addObject("users", userRepository.findAll());
+		mav.addObject("attendanceList", list);
 
 		return mav;
 	}
@@ -164,7 +171,7 @@ public class AdminController {
 		Iterable<User> list;
 
 		if (keyword == null || keyword.isEmpty()) {
-		    mav.addObject("error", "検索キーワードを入力してください");
+			mav.addObject("error", "検索キーワードを入力してください");
 			// 未入力 → 全件表示
 			list = userRepository.findAll();
 		} else {
@@ -173,6 +180,28 @@ public class AdminController {
 		}
 
 		mav.addObject("users", list);
+		return mav;
+	}
+
+	@GetMapping("/admin/attendance/search")
+	public ModelAndView search(@RequestParam(required = false) String keyword,
+			@RequestParam(required = false) String month, ModelAndView mav) {
+
+		mav.setViewName("attendance-list");
+
+		List<Attendance> list;
+
+		// 社員名未入力 → 全社員
+		if (keyword == null || keyword.isEmpty()) {
+			list = attendanceRepository.findAll();
+		} else {
+			// 社員名で検索
+			list = attendanceRepository.findByName(keyword);
+		}
+
+		mav.addObject("attendanceList", list);
+		mav.addObject("users", userRepository.findAll());
+
 		return mav;
 	}
 }

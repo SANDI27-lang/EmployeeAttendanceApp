@@ -16,7 +16,7 @@ public class Attendance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private  String name;
     private Long userId;
     private LocalDate workDate;
 
@@ -108,4 +108,12 @@ public class Attendance {
     public void setStatus(String status) {
         this.status = status;
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }
