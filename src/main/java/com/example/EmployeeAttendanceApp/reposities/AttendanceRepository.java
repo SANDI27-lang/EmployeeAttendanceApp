@@ -21,6 +21,7 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 	        Long userId,
 	        LocalDate startDate,
 	        LocalDate endDate);
-	List<Attendance> findByName(String keyword);
 	
+	List<Attendance> findByName(String keyword);
+	List<Attendance> findByStatus(String status);
 }

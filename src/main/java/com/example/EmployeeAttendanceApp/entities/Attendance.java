@@ -18,6 +18,7 @@ public class Attendance {
     private Long id;
     private  String name;
     private Long userId;
+    private String name;
     private LocalDate workDate;
 
     private LocalTime clockIn;
@@ -35,6 +36,10 @@ public class Attendance {
 
     public Long getUserId() {
         return userId;
+    }
+    
+    public String getName() {
+    	return name;
     }
 
     public LocalDate getWorkDate() {
@@ -71,6 +76,9 @@ public class Attendance {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    public void setName(String name) {
+    	this.name = name;
     }
 
     public void setUserId(Long userId) {

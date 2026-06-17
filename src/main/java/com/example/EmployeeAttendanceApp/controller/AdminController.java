@@ -127,10 +127,10 @@ public class AdminController {
 		mav.setViewName("attendance-list");
 		mav.addObject("title", "勤怠管理一覧");
 
-		Iterable<Attendance> list = attendanceRepository.findAll();
-
-		mav.addObject("users", userRepository.findAll());
-		mav.addObject("attendanceList", list);
+		Iterable<Attendance> attendanceList = attendanceRepository.findAll();
+		Iterable<User> users = userRepository.findAll();
+		mav.addObject("attendanceList", attendanceList);
+		mav.addObject("users", users);
 
 		return mav;
 	}

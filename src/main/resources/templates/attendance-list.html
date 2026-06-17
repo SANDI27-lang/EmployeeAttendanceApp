@@ -122,26 +122,21 @@ tr:nth-child(even) {
 
 		<div class="search-area">
 
-    <form th:action="@{/admin/attendance/search}" method="get">
+			<form th:action="@{/admin/attendance/search}" method="get">
 
-        年月
-        <input type="month" name="month">
+				年月 <input type="month" name="month"> 社員 <select
+					name="userId">
+					<option value="">全社員</option>
 
-         社員
-    <select name="userId">
-        <option value="">全社員</option>
+					<option th:each="user : ${users}" th:text="${user.name}">
+					</option>
+				</select>
 
-        <option th:each="user : ${users}"
-         
-                th:text="${user.name}">
-        </option>
-    </select>
+				<button type="submit" class="search-btn">検索</button>
 
-    <button type="submit" class="search-btn">検索</button>
+			</form>
 
-</form>
-
-</div>
+		</div>
 		<table>
 
 			<tr>
