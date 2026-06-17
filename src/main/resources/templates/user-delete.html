@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>社員削除</title>
+
+<style>
+
+body{
+    font-family:"Yu Gothic",sans-serif;
+    background-color:#f4f6f9;
+}
+
+.container{
+    width:600px;
+    margin:50px auto;
+    background:white;
+    padding:30px;
+    border-radius:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+    margin-bottom:30px;
+    color:#dc3545;
+}
+
+.message{
+    text-align:center;
+    font-size:18px;
+    margin-bottom:30px;
+}
+
+.info{
+    margin-bottom:15px;
+    font-size:16px;
+}
+
+.button-area{
+    text-align:center;
+    margin-top:30px;
+}
+
+.delete-btn{
+    width:120px;
+    height:40px;
+    background:#dc3545;
+    color:white;
+    border:none;
+    border-radius:4px;
+}
+
+.back-btn{
+    width:120px;
+    height:40px;
+    background:#6c757d;
+    color:white;
+    border:none;
+    border-radius:4px;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h2>社員削除</h2>
+
+<div class="message">
+    削除してもよろしいですか？
+</div>
+
+<form th:action="@{/admin/user/delete}" method="post">
+
+    <input type="hidden"
+           name="id"
+           th:value="${formModel.id}">
+
+    <div class="info">
+        <strong>社員番号：</strong>
+        <span th:text="${formModel.employeeNumber}"></span>
+    </div>
+
+    <div class="info">
+        <strong>氏名：</strong>
+        <span th:text="${formModel.name}"></span>
+    </div>
+
+    <div class="info">
+        <strong>メールアドレス：</strong>
+        <span th:text="${formModel.email}"></span>
+    </div>
+
+    <div class="button-area">
+
+        <button type="submit" class="delete-btn">
+            削除
+        </button>
+
+        <a th:href="@{/admin/user/list}">
+            <button type="button" class="back-btn">
+                戻る
+            </button>
+        </a>
+
+    </div>
+
+</form>
+
+</div>
+
+</body>
+</html>
