@@ -63,6 +63,7 @@
 
 						<tr>
 							<th>日付</th>
+							<th>名前</th>
 							<th>出勤</th>
 							<th>休憩開始</th>
 							<th>休憩終了</th>
@@ -77,8 +78,11 @@
 					<tbody>
 						<!-- 勤怠履歴を1件ずつ表示 -->
 						<tr th:each="attendance : ${attendanceList}">
+							
 							<!-- 勤務日 -->
 							<td th:text="${attendance.workDate}"></td>
+							<!-- 名前 -->
+							<td th:text="${attendance.name}"></td>
 							<!-- 出勤時間 -->
 							<td th:text="${attendance.clockIn}"></td>
 							<!-- 休憩開始時間 -->

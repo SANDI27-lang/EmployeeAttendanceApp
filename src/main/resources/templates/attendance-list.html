@@ -159,11 +159,11 @@ tr:nth-child(even){
             <th>操作</th>
         </tr>
 
-        <tr th:each="attendance : ${data}">
+        <tr th:each="attendance : ${attendanceList}">
 
             <td th:text="${attendance.workDate}"></td>
 
-            <td th:text="${attendance.userName}"></td>
+            <td th:text="${attendance.name}"></td>
 
             <td th:text="${attendance.clockIn}"></td>
 
