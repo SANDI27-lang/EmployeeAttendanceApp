@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>社員登録</title>
+
+<style>
+body {
+	font-family: "Yu Gothic", sans-serif;
+	background-color: #f4f6f9;
+}
+
+.container {
+	width: 600px;
+	margin: 50px auto;
+	background-color: white;
+	padding: 30px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+	display: inline-block;
+	background-color: #1f3a5f;
+	color: white;
+	font-size: 24px;
+	font-weight: bold;
+	padding: 15px 20px;
+	border-radius: 5px;
+	margin-bottom: 25px;
+}
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+input {
+	width: 100%;
+	height: 40px;
+	padding-left: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.button-area {
+	text-align: center;
+	margin-top: 30px;
+}
+
+.register-btn {
+	width: 120px;
+	height: 40px;
+	border: none;
+	border-radius: 4px;
+	background-color: #28a745;
+	color: white;
+	cursor: pointer;
+}
+
+.back-btn {
+	width: 120px;
+	height: 40px;
+	border: none;
+	border-radius: 4px;
+	background-color: #6c757d;
+	color: white;
+	cursor: pointer;
+	margin-left: 10px;
+}
+
+.register-btn:hover {
+	background-color: #218838;
+}
+
+.back-btn:hover {
+	background-color: #5a6268;
+}
+</style>
+
+</head>
+<body>
+
+	<div class="container">
+
+		<h2 th:text="${title}">社員登録</h2>
+
+		<form th:action="@{/admin/user/register}" th:object="${formModel}"
+			method="post">
+
+			<div class="form-group">
+				<label>社員番号</label> <input type="text" th:field="*{employeeNumber}">
+			</div>
+
+			<div class="form-group">
+				<label>氏名</label> <input type="text" th:field="*{name}">
+			</div>
+
+			<div class="form-group">
+				<label>メールアドレス</label> <input type="email" th:field="*{email}">
+			</div>
+			<div class="form-group">
+				<label>パスワード</label> <input type="password" th:field="*{password}">
+			</div>
+			<div class="button-area">
+
+				<button type="submit" class="register-btn">登録</button>
+
+				<a th:href="@{/admin/user/list}">
+					<button type="button" class="back-btn">戻る</button>
+				</a>
+
+			</div>
+
+		</form>
+
+	</div>
+
+</body>
+</html>
