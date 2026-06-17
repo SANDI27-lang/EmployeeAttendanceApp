@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>社員一覧</title>
+
+<style>
+body {
+	font-family: "Yu Gothic", sans-serif;
+	background-color: #f4f6f9;
+}
+
+h2 {
+	display: inline-block;
+	background-color: #1f3a5f;
+	color: white;
+	font-size: 24px;
+	font-weight: bold;
+	padding: 15px 20px;
+	border-radius: 5px;
+	margin-bottom: 25px;
+}
+
+.container {
+	width: 1000px;
+	margin: 30px auto;
+	background-color: white;
+	padding: 20px;
+	border: 1px solid #ccc;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 30px;
+}
+
+.search-area {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.search-area input {
+	width: 300px;
+	height: 35px;
+	padding-left: 10px;
+}
+
+.search-btn {
+	width: 100px;
+	height: 40px;
+	cursor: pointer;
+}
+
+
+.all-btn {
+     display: inline-block;
+      background-color: grey;
+    padding: 6px 12px;
+    border: 1px solid #999;
+    text-decoration: none;
+   cursor: pointer;
+   color: white;
+    margin-left: 10px;
+}
+
+.all-btn:hover {
+    background-color: #218838;
+}
+.register-btn {
+	width: 120px;
+	height: 40px;
+	background-color: #28a745;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+.register-btn:hover{
+background-color: #28a745;
+}
+.home-btn {
+	background-color: grey;
+	color: white;
+	width: 120px;
+	height: 40px;
+	margin-top: 20px;
+	cursor: pointer;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th, td {
+	border: 1px solid #ccc;
+	padding: 10px;
+	text-align: center;
+}
+
+th {
+	background-color: #3498db;
+	color: white;
+}
+
+.edit-btn {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+.edit-btn:hover {
+    background-color: #218838;
+}
+
+.delete-btn {
+	background-color: #dc3545;
+	color: white;
+	border: none;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #218838;
+}
+.error-input {
+	border: 2px solid red;
+	background-color: #ffe6e6;
+}
+</style>
+
+</head>
+<body>
+
+	<div class="container">
+
+		<div class="header">
+
+			<h2>社員一覧</h2>
+
+			<a th:href="@{/admin/user/register}">
+				<button class="register-btn">新規登録</button>
+			</a>
+
+		</div>
+
+		<div class="search-area">
+
+			<form th:action="@{/admin/user/search}" method="get">
+
+				<input type="text" name="keyword"
+					th:placeholder="${error != null ? error : '氏名またはメールアドレスを入力'}"
+					th:classappend="${error != null} ? 'error-input' : ''">
+
+				<button type="submit" class="search-btn">🔍検索</button>
+				 <a th:href="@{/admin/user/list}" class="all-btn">全件表示</a>
+			</form>
+			
+
+		</div>
+
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>社員番号</th>
+				<th>氏名</th>
+				<th>メールアドレス</th>
+				<th>操作</th>
+			</tr>
+
+			<tr th:each="user : ${users}">
+				<td th:text="${user.id}"></td>
+				<td th:text="${user.employeeNumber}"></td>
+				<td th:text="${user.name}"></td>
+				<td th:text="${user.email}"></td>
+
+				<td><a th:href="@{/admin/user/update/{id}(id=${user.id})}">
+						<button class="edit-btn">編集</button>
+				</a> <a th:href="@{/admin/user/delete/{id}(id=${user.id})}">
+						<button class="delete-btn">削除</button>
+				</a></td>
+			</tr>
+		</table>
+
+		<br> <a th:href="@{/admin}">
+			<button class="home-btn">ホームへ戻る</button>
+		</a>
+
+	</div>
+
+</body>
+</html>
+
+

@@ -54,7 +54,7 @@ public class LoginController {
 			session.setAttribute("role", user.getRole());
 			/**管理者の場合は管理者トップ画面へ遷移**/
 			if ("ADMIN".equals(user.getRole())) {
-				return "redirect:/admin/top";
+				return "redirect:/admin";
 			}
 			/**一般社員の場合は社員トップ画面へ遷移**/
 			return "redirect:/top";
