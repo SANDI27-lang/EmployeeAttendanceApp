@@ -1,0 +1,164 @@
+<!-- 
+出勤・退勤画面 
+・社員が出勤時間、休憩時間、退勤時間を入力する画面 
+・入力された時刻から休憩時間と実働時間を自動計算する 
+・登録ボタン押下時に勤怠情報をデータベースへ保存する 
+・トップページへ戻る機能を持つ 
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+<!-- ブラウザタイトル -->
+<title>出勤・退勤画面</title>
+<!-- 文字コード設定 -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Bootstrapの読み込み -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+	<!-- 画面全体 -->
+	<div class="container mt-5">
+		<!-- カード形式で表示 -->
+		<div class="card shadow">
+			<!-- 画面タイトル -->
+			<div class="card-header bg-primary text-white"><h3>出勤・退勤画面</h3></div>
+			<div class="card-body">
+				<!-- 本日の打刻記録 -->
+				<h5 class="mb-4">本日の打刻記録</h5>
+				<!-- 勤怠登録フォーム -->
+				<form method="post" action="/attendance/add" th:object="${attendance}">
+					<!-- 勤務日を保持 -->
+					<input type="hidden" th:field="*{workDate}">
+					<div class="row">
+						<!-- 左側：時刻入力エリア -->
+						<div class="col-md-6">
+							<table class="table table-bordered">
+								<!-- 出勤時間 -->
+								<tr>
+									<th class="table-primary">出勤打刻</th>
+									<td><input type="time" id="clockIn" class="form-control" th:field="*{clockIn}"></td>
+								</tr>
+								<!-- 休憩開始時間 -->
+								<tr>
+									<th class="table-primary">休憩開始</th>
+									<td><input type="time" id="breakStart" class="form-control" th:field="*{breakStart}"></td>
+								</tr>
+								<!-- 休憩終了時間 -->
+								<tr>
+									<th class="table-primary">休憩終了</th>
+									<td><input type="time" id="breakEnd" class="form-control" th:field="*{breakEnd}"></td>
+								</tr>
+								<!-- 退勤時間 -->
+								<tr>
+									<th class="table-primary">退勤打刻</th>
+									<td><input type="time" id="clockOut" class="form-control" th:field="*{clockOut}"></td>
+								</tr>
+							</table>
+						</div>
+
+						<!-- 右側：計算結果表示エリア -->
+						<div class="col-md-6">
+							<table class="table table-bordered">
+								<!-- 実働時間表示 -->
+								<tr>
+									<th class="table-success">実働時間</th>
+									<td><input type="text" id="workingHours" class="form-control" readonly></td>
+								</tr>
+								<!-- 休憩時間表示 -->
+								<tr>
+									<th class="table-success">休憩時間</th>
+									<td><input type="text" id="breakHours" class="form-control" readonly></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					
+					<!-- ボタンエリア -->
+					<div class="text-center mt-4">
+						<!-- 勤怠登録 -->
+						<button type="submit" class="btn btn-success me-3">登録</button>
+						<!-- トップページへ戻る -->
+						<a href="/top" class="btn btn-secondary"> トップページへ戻る </a>
+					</div>
+
+				</form>
+			</div>
+
+		</div>
+	</div>
+
+	<script>
+	/** 
+	* 時刻(HH:mm)を分単位へ変換する 
+	* 例：09:30 → 570 
+	* 	18:00 → 1080 
+	*/
+		function toMinutes(time) {
+			/**未入力の場合**/
+			if (!time) return null;
+			/**時と分を分割**/
+			const parts = time.split(":");
+			/**時間部分**/
+			const hours = Number(parts[0]);
+			/**分部分**/
+			const minutes = Number(parts[1]);
+			/**分へ変換**/
+			return hours * 60 + minutes;
+		}
+		/** 
+		* 分単位の時間を 
+		* 「○時間○分」の文字列へ変換する 
+		* 例： 480 → 8時間0分 
+		* 	  510 → 8時間30分 
+		*/
+		function format(minutes) {
+			/**時間部分**/
+			const hours = Math.floor(minutes / 60);
+			/**分部分**/
+			const mins = minutes % 60;
+
+			return hours + "時間" + mins + "分";
+		}
+		/** 
+		* 実働時間・休憩時間を計算する 
+		* 実働時間 = (退勤時間 - 出勤時間) - 休憩時間 
+		*/
+		function calculateTime() {
+			/**出勤時間取得**/
+			const clockIn = toMinutes(document.getElementById("clockIn").value);
+			/**休憩開始時間取得**/
+			const breakStart = toMinutes(document.getElementById("breakStart").value);
+			/**休憩終了時間取得**/
+			const breakEnd = toMinutes(document.getElementById("breakEnd").value);
+			/**退勤時間取得**/
+			const clockOut = toMinutes(document.getElementById("clockOut").value);
+			/**未入力チェック**/
+			if (clockIn === null || breakStart === null || breakEnd === null
+					|| clockOut === null) {
+				return;
+			}
+			/**休憩時間計算**/
+			const breakTime = breakEnd - breakStart;
+			/**実働時間計算**/
+			const workingTime = clockOut - clockIn - breakTime;
+			/**休憩時間表示**/
+			document.getElementById("breakHours").value = format(breakTime);
+			/**実働時間表示**/
+			document.getElementById("workingHours").value = format(workingTime);
+		}
+		/** 
+		* 時刻入力が変更されたら 
+		* 自動的に再計算する 
+		*/
+		document.querySelectorAll("input[type='time']").forEach(
+				function(input) {
+					input.addEventListener("change", calculateTime);
+				});
+		/**画面表示時に初回計算を実行する**/
+		window.onload = calculateTime;
+	</script>
+
+</body>
+</html>
