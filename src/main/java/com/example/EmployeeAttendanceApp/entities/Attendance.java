@@ -3,6 +3,7 @@ package com.example.EmployeeAttendanceApp.entities;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +17,8 @@ public class Attendance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private  String name;
+    private String name;
+    @Column(name = "user_id")
     private Long userId;
     private LocalDate workDate;
 
@@ -120,4 +122,7 @@ public class Attendance {
 	public void setName(String name) {
 		this.name = name;
 	}
+    
+    
+
 }
