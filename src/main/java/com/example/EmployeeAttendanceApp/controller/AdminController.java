@@ -18,6 +18,7 @@ import com.example.EmployeeAttendanceApp.entities.User;
 import com.example.EmployeeAttendanceApp.reposities.AttendanceRepository;
 import com.example.EmployeeAttendanceApp.reposities.UserRepository;
 import com.example.EmployeeAttendanceApp.service.AttendanceService;
+import com.example.EmployeeAttendanceApp.service.UserService;
 
 @Controller
 public class AdminController {
@@ -27,6 +28,9 @@ public class AdminController {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private AttendanceService attendanceService;
@@ -115,7 +119,8 @@ public class AdminController {
 	@RequestMapping(value = "/admin/user/delete", method = RequestMethod.POST)
 	public ModelAndView removeUser(@RequestParam long id, ModelAndView mav) {
 
-		userRepository.deleteById(id);
+		//userRepository.deleteById(id);
+		userService.deleteUser(id);
 
 		return new ModelAndView("redirect:/admin/user/list");
 	}
@@ -196,7 +201,7 @@ public class AdminController {
 			list = attendanceRepository.findAll();
 		} else {
 			// 社員名で検索
-			list = attendanceRepository.findByName(keyword);
+			list = attendanceRepository.findByNameContaining(keyword);
 		}
 
 		mav.addObject("attendanceList", list);
