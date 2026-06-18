@@ -8,8 +8,10 @@ package com.example.EmployeeAttendanceApp.service;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.EmployeeAttendanceApp.entities.User;
+import com.example.EmployeeAttendanceApp.reposities.AttendanceRepository;
 import com.example.EmployeeAttendanceApp.reposities.UserRepository;
 
 /**サービスクラスとしてSpringに登録**/
@@ -17,9 +19,20 @@ import com.example.EmployeeAttendanceApp.reposities.UserRepository;
 public class UserService {
 	 /**UserテーブルへアクセスするRepository**/
     private final UserRepository userRepository;
+    /** 勤怠テーブルへアクセスするRepository **/
+    private final AttendanceRepository attendanceRepository;
     /** コンストラクタインジェクション**/
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, AttendanceRepository attendanceRepository) {
         this.userRepository = userRepository;
+        this.attendanceRepository = attendanceRepository;
+    }
+    @Transactional
+    public void deleteUser(Long userId) {
+
+        /** 勤怠履歴削除**/
+        attendanceRepository.deleteByUserId(userId);
+        /** ユーザー削除**/
+        userRepository.deleteById(userId);
     }
     /**
      * ログイン認証処理

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.EmployeeAttendanceApp.entities.Attendance;
 /**
@@ -22,6 +23,8 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 	        LocalDate startDate,
 	        LocalDate endDate);
 	
-	List<Attendance> findByName(String keyword);
+	List<Attendance> findByNameContaining(String keyword);
 	List<Attendance> findByStatus(String status);
+	@Transactional
+	void deleteByUserId(Long userId);
 }
