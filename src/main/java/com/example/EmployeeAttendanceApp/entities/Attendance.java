@@ -39,9 +39,7 @@ public class Attendance {
         return userId;
     }
     
-    public String getName() {
-    	return name;
-    }
+ 
 
     public LocalDate getWorkDate() {
         return workDate;
@@ -78,9 +76,8 @@ public class Attendance {
     public void setId(Long id) {
         this.id = id;
     }
-    public void setName(String name) {
-    	this.name = name;
-    }
+  
+    
 
     public void setUserId(Long userId) {
         this.userId = userId;
@@ -117,5 +114,15 @@ public class Attendance {
     public void setStatus(String status) {
         this.status = status;
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+    
+    
 
 }

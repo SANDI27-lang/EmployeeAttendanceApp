@@ -124,8 +124,7 @@ tr:nth-child(even) {
 
 			<form th:action="@{/admin/attendance/search}" method="get">
 
-				年月 <input type="month" name="month"> 社員 <select
-					name="userId">
+				年月 <input type="month" name="month"> 社員 <select name="name">
 					<option value="">全社員</option>
 
 					<option th:each="user : ${users}" th:text="${user.name}">

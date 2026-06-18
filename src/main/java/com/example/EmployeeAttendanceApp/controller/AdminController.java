@@ -1,5 +1,6 @@
 package com.example.EmployeeAttendanceApp.controller;
 
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 
@@ -189,24 +190,36 @@ public class AdminController {
 	}
 
 	@GetMapping("/admin/attendance/search")
-	public ModelAndView search(@RequestParam(required = false) String keyword,
-			@RequestParam(required = false) String month, ModelAndView mav) {
+	public ModelAndView search(
+	        @RequestParam(required = false) String name,
+	        @RequestParam(required = false) String month,
+	        ModelAndView mav) {
 
-		mav.setViewName("attendance-list");
+	    mav.setViewName("attendance-list");
 
-		List<Attendance> list;
+	    List<Attendance> list;
 
-		// 社員名未入力 → 全社員
-		if (keyword == null || keyword.isEmpty()) {
-			list = attendanceRepository.findAll();
-		} else {
-			// 社員名で検索
-			list = attendanceRepository.findByNameContaining(keyword);
-		}
+	    // 名前検索
+	    if (name == null || name.isEmpty()) {
+	        list = attendanceRepository.findAll();
+	    } else {
+	        list = attendanceRepository.findByName(name);
+	    }
 
-		mav.addObject("attendanceList", list);
-		mav.addObject("users", userRepository.findAll());
+	    // 月検索
+	    if (month != null && !month.isEmpty()) {
 
-		return mav;
+	        YearMonth ym = YearMonth.parse(month);
+
+	        list = list.stream()
+	                .filter(a -> a.getWorkDate() != null)
+	                .filter(a -> YearMonth.from(a.getWorkDate()).equals(ym))
+	                .toList();
+	    }
+
+	    mav.addObject("attendanceList", list);
+	    mav.addObject("users", userRepository.findAll());
+
+	    return mav;
 	}
 }

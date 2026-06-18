@@ -1,6 +1,5 @@
 package com.example.EmployeeAttendanceApp.entities;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +21,6 @@ public class User {
     private String email;
     private String password;
     /**権限(USER / ADMIN)**/
-    @Column(nullable = false)
     private String role; 
     /**管理者の社員管理機能で使う**/
     private String employeeNumber;

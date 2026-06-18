@@ -23,7 +23,7 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 	        LocalDate startDate,
 	        LocalDate endDate);
 	
-	List<Attendance> findByNameContaining(String keyword);
+	List<Attendance> findByName(String name);
 	List<Attendance> findByStatus(String status);
 	@Transactional
 	void deleteByUserId(Long userId);
